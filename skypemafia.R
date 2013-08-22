@@ -56,23 +56,27 @@ V(g)[ type == "Skype" ]$color     <- "blue"
 V(g)$label.dist <- 0.15
 V(g)[ type == "Person" ]$label.dist <- 0.05
 
+
+####
+#### Plot all the vertices & edges we've got
+####
+
+pdf("skypemafia - full plot.pdf", family="sans", width=14,height=14)
+# png(file="skypemafia plot.png", width=2000,height=2000)
+
 l <- layout.fruchterman.reingold(g,niter=500,area=vcount(g)^2.3,repulserad=vcount(g)^2.8)
 # l <- layout.fruchterman.reingold.grid(g)
 # l <- layout.graphopt(g)
 
-
-####
-#### Plot everything
-####
-
-pdf("skypemafia - full plot.pdf", family="sans")
-# png(file="skypemafia plot.png", width=2000,height=2000)
-
 plot.igraph(g, layout=l,
             vertex.label.color="black", vertex.label.degree=pi/2, vertex.label.family="sans",
-            vertex.label.cex=0.3,
+            vertex.label.cex=0.5,
             vertex.frame.color="white", vertex.size=V(g)$size/5,
             edge.arrow.size=0.1, main="#SkypeMafia 2013")
+legend("bottomright", cex=0.5, border = FALSE, bty="n",
+       legend=c("Skype & founders", "People", "Startups", "Other companies", "Investors"),
+       fill=c("blue", "black", "red", "darkred", "darkgreen"))
+
 
 # close the graphics output device
 dev.off()
@@ -89,10 +93,13 @@ g_invest <- g_invest - path("Skype")
 
 g_invest <- g_invest - vertices(degree(g_invest)==0 ) # remove isolates
 
+l_invest <- layout.fruchterman.reingold(g_invest,niter=500,area=vcount(g)^1.8,repulserad=vcount(g)^2.3)
+#  <- layout.fruchterman.reingold.grid(g)
+#  <- layout.graphopt(g)
 
 pdf("skypemafia - money plot.pdf", family="sans")
 
-plot.igraph(g_invest, layout=layout.fruchterman.reingold.grid(g_invest),
+plot.igraph(g_invest, layout=l_invest,
             vertex.label.color="black", vertex.label.degree=pi/2, vertex.label.family="sans",
             vertex.label.cex=0.3,
             vertex.frame.color="white", vertex.size=V(g_invest)$size/5,
@@ -118,13 +125,18 @@ g_founder <- g_founder - vertices(V(g_founder)[Type=="Company"])
 g_founder <- g_founder - vertices(degree(g_founder)==0 ) # remove isolates
 g_founder <- g_founder - vertices(degree(g_founder, mode="out")==1) # remove non-wounder employees (no other outbound connections but Skype)
 
+V(g_founder)$label.dist <- 0.2
+V(g_founder)[ type == "Person" ]$label.dist <- 0.08
+
+l_founder <- layout.fruchterman.reingold(g_founder,niter=500,area=vcount(g)^2,repulserad=vcount(g)^2.8)
+
 pdf("skypemafia - founder plot.pdf", family="sans")
 
-plot.igraph(g_founder, layout=layout.fruchterman.reingold.grid(g_founder),
+plot.igraph(g_founder, layout=l_founder,
             vertex.label.color="black", vertex.label.degree=pi/2, vertex.label.family="sans",
             vertex.label.cex=0.3,
-            vertex.frame.color="white", vertex.size=V(g_founder)$size/5,
-            edge.arrow.size=0.1, main="#SkypeMafia Founders")
+            vertex.frame.color="white", vertex.size=V(g_founder)$size/3,
+            edge.arrow.size=0.1, main="#SkypeMafia Startup Founders")
 
 # close the graphics output device
 dev.off()
