@@ -14,5 +14,7 @@ Built on igraph package for R, the script takes two simple CSV input files:
 * properties list for type, country of origin and formatting metadata of all entities mentioned in edge list
 
 The data in Skype-specific CSV files has been acquired by (mostly manually) scanning public profiles
-of mentioned players at sources such as Crunchbase, AngelList, LinkedIn, etc. Should be relatively easy to
-replicate for whatever group of people and companies you're interested in if you were to branch this script.
+of mentioned players at sources such as Crunchbase, AngelList, LinkedIn, etc.
+
+Data collection should be relatively easy to replicate for whatever group of people and companies you're
+interested in if you were to fork this script. Use at your own risk.
