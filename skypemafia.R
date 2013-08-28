@@ -4,11 +4,13 @@
 # created to celebrate 10th birthday of Skype on August 29th, 2013
 # by Sten Tamkivi (about.me/sten)
 # 
-# Special thanks to Daizaburo Shizuka for his
-# R SNA reference (https://sites.google.com/site/daishizuka/toolkits/sna)
+# Special thanks to Sharique Hasan (http://www.gsb.stanford.edu/users/sharique)
+# for his OB322: Networks class at Stanford GSB
+# and Daizaburo Shizuka for his R SNA reference 
+# (https://sites.google.com/site/daishizuka/toolkits/sna)
 #
 
-library(igraph)
+library(igraph) # for plotting
 
 setwd("/Users/sten/Dropbox/git/SkypeMafia-visualization")
 
@@ -56,6 +58,29 @@ V(g)[ type == "Skype" ]$color     <- "blue"
 V(g)$label.dist <- 0.15
 V(g)[ type == "Person" ]$label.dist <- 0.05
 
+summary(g)
+
+####
+#### Some very basic SNA measures
+####
+
+# Top 10 entities by betweenness centrality
+-sort(-betweenness(g))[1:10]
+
+# Top 20 entities by eigenvector centrality (not the tiny differences)
+-sort(-evcent(g)$vector)[1:20]
+
+# Top 10 by incoming and outgoing edges to/from a particular node
+-sort(-degree(g, mode="in"))[1:10]
+-sort(-degree(g, mode="out"))[1:10]
+
+
+#	Histograms for each of these centrality measures.
+
+hist(indegree)
+hist(outdegree)
+hist(eigen)
+hist(between)
 
 ####
 #### Plot all the vertices & edges we've got
@@ -74,8 +99,8 @@ plot.igraph(g, layout=l,
             vertex.frame.color="white", vertex.size=V(g)$size/5,
             edge.arrow.size=0.1, main="#SkypeMafia 2013")
 legend("bottomright", cex=0.5, border = FALSE, bty="n",
-       legend=c("Skype & founders", "People", "Startups", "Other companies", "Investors"),
-       fill=c("blue", "black", "red", "darkred", "darkgreen"))
+       legend=c("Skype, founders & acquisitions", "Startups & founding relationships", "Investors & money flow", "Other companies", "Working relationships"),
+       fill=c("blue", "red", "darkgreen", "darkred", "grey"))
 
 
 # close the graphics output device
@@ -103,7 +128,11 @@ plot.igraph(g_invest, layout=l_invest,
             vertex.label.color="black", vertex.label.degree=pi/2, vertex.label.family="sans",
             vertex.label.cex=0.3,
             vertex.frame.color="white", vertex.size=V(g_invest)$size/5,
-            edge.arrow.size=0.1, main="#SkypeMafia Money Flow")
+            edge.arrow.size=0.1, main="#SkypeMafia Funding Flow")
+legend("bottomright", cex=0.5, border = FALSE, bty="n",
+       legend=c("Skype, founders & acquisitions", "Startups", "Investors & money flow"),
+       fill=c("blue", "red", "darkgreen"))
+
 
 # close the graphics output device
 dev.off()
@@ -137,6 +166,9 @@ plot.igraph(g_founder, layout=l_founder,
             vertex.label.cex=0.3,
             vertex.frame.color="white", vertex.size=V(g_founder)$size/3,
             edge.arrow.size=0.1, main="#SkypeMafia Startup Founders")
+legend("bottomright", cex=0.5, border = FALSE, bty="n",
+       legend=c("Skype, founders & acquisitions", "Startups & founding relationships", "Working relationships"),
+       fill=c("blue", "red", "grey"))
 
 # close the graphics output device
 dev.off()
