@@ -13,6 +13,7 @@
 library(igraph) # for plotting
 
 setwd("/Users/sten/Dropbox/git/SkypeMafia-visualization")
+ver <- "v1.1"
 
 # read the Entity Type, Location, edge size attributes
 attributes <- read.csv(file = "skypemafia_attributes.csv", sep=",", row.names=NULL, header = TRUE)
@@ -74,14 +75,6 @@ summary(g)
 -sort(-degree(g, mode="in"))[1:10]
 -sort(-degree(g, mode="out"))[1:10]
 
-
-#	Histograms for each of these centrality measures.
-
-hist(indegree)
-hist(outdegree)
-hist(eigen)
-hist(between)
-
 ####
 #### Plot all the vertices & edges we've got
 ####
@@ -101,6 +94,8 @@ plot.igraph(g, layout=l,
 legend("bottomright", cex=0.5, border = FALSE, bty="n",
        legend=c("Skype, founders & acquisitions", "Startups & founding relationships", "Investors & money flow", "Other companies", "Working relationships"),
        fill=c("blue", "red", "darkgreen", "darkred", "grey"))
+
+text(1, -1, ver, cex=0.5)
 
 
 # close the graphics output device
@@ -132,6 +127,8 @@ plot.igraph(g_invest, layout=l_invest,
 legend("bottomright", cex=0.5, border = FALSE, bty="n",
        legend=c("Skype, founders & acquisitions", "Startups", "Investors & money flow"),
        fill=c("blue", "red", "darkgreen"))
+
+text(1, -1, ver, cex=0.5)
 
 
 # close the graphics output device
@@ -169,6 +166,8 @@ plot.igraph(g_founder, layout=l_founder,
 legend("bottomright", cex=0.5, border = FALSE, bty="n",
        legend=c("Skype, founders & acquisitions", "Startups & founding relationships", "Working relationships"),
        fill=c("blue", "red", "grey"))
+
+text(1, -1, ver, cex=0.5)
 
 # close the graphics output device
 dev.off()
