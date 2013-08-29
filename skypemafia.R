@@ -128,7 +128,7 @@ legend("bottomright", cex=0.5, border = FALSE, bty="n",
        legend=c("Skype, founders & acquisitions", "Startups", "Investors & money flow"),
        fill=c("blue", "red", "darkgreen"))
 
-text(1, -1, ver, cex=0.5)
+text(-1, -1, ver, cex=0.5)
 
 
 # close the graphics output device
