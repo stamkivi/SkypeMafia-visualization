@@ -13,7 +13,7 @@
 library(igraph) # for plotting
 
 setwd("/Users/sten/Dropbox/git/SkypeMafia-visualization")
-ver <- "v1.1"
+ver <- "v1.2"
 
 # read the Entity Type, Location, edge size attributes
 attributes <- read.csv(file = "skypemafia_attributes.csv", sep=",", row.names=NULL, header = TRUE)
@@ -59,11 +59,11 @@ V(g)[ type == "Skype" ]$color     <- "blue"
 V(g)$label.dist <- 0.15
 V(g)[ type == "Person" ]$label.dist <- 0.05
 
-summary(g)
-
 ####
 #### Some very basic SNA measures
 ####
+
+summary(g)
 
 # Top 10 entities by betweenness centrality
 -sort(-betweenness(g))[1:10]
@@ -79,7 +79,7 @@ summary(g)
 #### Plot all the vertices & edges we've got
 ####
 
-pdf("skypemafia - full plot.pdf", family="sans", width=14,height=14)
+pdf("skypemafia - full plot.pdf", family="sans", width=16,height=16)
 # png(file="skypemafia plot.png", width=2000,height=2000)
 
 l <- layout.fruchterman.reingold(g,niter=500,area=vcount(g)^2.3,repulserad=vcount(g)^2.8)
@@ -149,7 +149,7 @@ g_founder <- g_founder - vertices(V(g_founder)[Type=="Company"])
 # g_founder <- g_founder - path("Skype")
 
 g_founder <- g_founder - vertices(degree(g_founder)==0 ) # remove isolates
-g_founder <- g_founder - vertices(degree(g_founder, mode="out")==1) # remove non-wounder employees (no other outbound connections but Skype)
+g_founder <- g_founder - vertices(degree(g_founder, mode="out")==1) # remove non-founder employees (no other outbound connections but Skype)
 
 V(g_founder)$label.dist <- 0.2
 V(g_founder)[ type == "Person" ]$label.dist <- 0.08
@@ -171,3 +171,26 @@ text(1, -1, ver, cex=0.5)
 
 # close the graphics output device
 dev.off()
+
+
+####
+#### Summary counts
+####
+
+print("Number of people on the graph:")
+length(V(g)[ type == "Person" ])
+
+print("Number of ex-Skype startup founders:")
+length(V(g_founder)[ type == "Person" ])
+
+print("Number of Skype-spawned startups:")
+length(V(g_founder)[ type == "Startup" ])
+
+print("Number of professional investors on the graph:")
+length(V(g)[ type == "VC" ])
+
+print("Number of individual angel investors:")
+length(V(g_invest)[ type == "Person" ])
+
+print("Number of investments captured:")
+length(E(g_invest)[ Role == 3 ])
