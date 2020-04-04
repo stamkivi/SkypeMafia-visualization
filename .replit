@@ -1,0 +1,2 @@
+language = "rlang"
+run = "r skypemafia.R"

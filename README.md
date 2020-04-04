@@ -18,3 +18,5 @@ of mentioned players at sources such as Crunchbase, AngelList, LinkedIn, etc.
 
 Data collection should be relatively easy to replicate for whatever group of people and companies you're
 interested in if you were to fork this script. Use at your own risk.
+
+[![Run on Repl.it](https://repl.it/badge/github/stamkivi/SkypeMafia-visualization)](https://repl.it/github/stamkivi/SkypeMafia-visualization)
